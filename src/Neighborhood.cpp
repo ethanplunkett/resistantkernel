@@ -1,20 +1,16 @@
-/*BGN::ERB_DEFINITION <%= get_block('..\spread\_spread.h', 'FILE_INFO') %> */
-// This file is part of the spread library.
-// Historically this algorithm has started life as a way to measure connectedness in CAPS
-// (aka Conservation Assessment and Prioritization System), a software package conceived at
-// the University of Massachusetts by Brad Compton, Kevin Mcgarigal and Eduard Ene, and 
-// implemented in C++ by Eduard Ene.
-// It has then been extracted and converted into a DLL for use from within APL by Eduard Ene
-// Ethan Plunkett has adapted the library into an R package, and updated the formula for
-// computing resistance loss.
-// This package is made available in the hope that it will be useful. Enjoy!
-/*END::ERB_EXPANSION*/
 #include "Neighborhood.h"
 
-/* CONSTRUCTOR IMPLEMENTATION
-============================================================================
-============================================================================ */
-CNeighborhood::CNeighborhood(CSpreadMatrix &aGrid, int aNeighborhoodType) :
+#ifdef _DEBUG
+#undef THIS_FILE
+static char THIS_FILE[]=__FILE__;
+#define new DEBUG_NEW
+#endif
+
+//////////////////////////////////////////////////////////////////////
+// Construction/Destruction
+//////////////////////////////////////////////////////////////////////
+
+CNeighborhood::CNeighborhood(CMatrix &aGrid, int aNeighborhoodType) :
     m_oSrcGrid(aGrid), m_iNeighborhoodType(aNeighborhoodType),
 		m_oNE_Neighbor(/*row*/ N_SHIFT, /*col*/E_SHIFT, DIAG_COEF),
 		m_oNW_Neighbor(/*row*/ N_SHIFT, /*col*/W_SHIFT, DIAG_COEF),
@@ -57,9 +53,6 @@ CNeighborhood::CNeighborhood(CSpreadMatrix &aGrid, int aNeighborhoodType) :
 	m_oW_Neighbor.Name () = "W";
 }
 
-/* DESTRUCTOR IMPLEMENTATION
-============================================================================
-============================================================================ */
 CNeighborhood::~CNeighborhood()
 {
 }

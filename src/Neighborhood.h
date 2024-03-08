@@ -1,17 +1,10 @@
-/*BGN::ERB_DEFINITION <%= get_block('..\spread\_spread.h', 'FILE_INFO') %> */
-// This file is part of the spread library.
-// Historically this algorithm has started life as a way to measure connectedness in CAPS
-// (aka Conservation Assessment and Prioritization System), a software package conceived at
-// the University of Massachusetts by Brad Compton, Kevin Mcgarigal and Eduard Ene, and 
-// implemented in C++ by Eduard Ene.
-// It has then been extracted and converted into a DLL for use from within APL by Eduard Ene
-// Ethan Plunkett has adapted the library into an R package, and updated the formula for
-// computing resistance loss.
-// This package is made available in the hope that it will be useful. Enjoy!
-/*END::ERB_EXPANSION*/
-#ifndef _NEIGHBORHOOD_H_
-#define _NEIGHBORHOOD_H_
+#if !defined(AFX_NEIGHBORHOOD_H__769CC099_7D7A_4A92_8821_C71AA7BABD1D__INCLUDED_)
+#define AFX_NEIGHBORHOOD_H__769CC099_7D7A_4A92_8821_C71AA7BABD1D__INCLUDED_
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+ 
 /*
 ** FORWARD DECLARATIONS
 ** ----------------------------------------------------------------------------
@@ -68,7 +61,7 @@ public:
 */
 class CNeighborhood  
 {
-	CSpreadMatrix &m_oSrcGrid;
+	CMatrix &m_oSrcGrid;
 	int m_iNeighborhoodType;
 	int m_iNeighborCount;
 	int m_iPivotRow;
@@ -208,10 +201,10 @@ public:
 			};
 		};
 	};
-	CNeighborhood(CSpreadMatrix &aGrid, int aNeighborhoodType);
+	CNeighborhood(CMatrix &aGrid, int aNeighborhoodType);
 	virtual ~CNeighborhood();
 
 };
 #undef RESET_CELL
 
-#endif // _NEIGHBORHOOD_H_
+#endif // !defined(AFX_NEIGHBORHOOD_H__769CC099_7D7A_4A92_8821_C71AA7BABD1D__INCLUDED_)

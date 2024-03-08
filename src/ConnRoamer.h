@@ -1,17 +1,10 @@
-/*BGN::ERB_DEFINITION <%= get_block('..\spread\_spread.h', 'FILE_INFO') %> */
-// This file is part of the spread library.
-// Historically this algorithm has started life as a way to measure connectedness in CAPS
-// (aka Conservation Assessment and Prioritization System), a software package conceived at
-// the University of Massachusetts by Brad Compton, Kevin Mcgarigal and Eduard Ene, and 
-// implemented in C++ by Eduard Ene.
-// It has then been extracted and converted into a DLL for use from within APL by Eduard Ene
-// Ethan Plunkett has adapted the library into an R package, and updated the formula for
-// computing resistance loss.
-// This package is made available in the hope that it will be useful. Enjoy!
-/*END::ERB_EXPANSION*/
-#ifndef _CONN_ROAMER_H_
-#define _CONN_ROAMER_H_
+#if !defined(AFX_CONNROAMER_H__0585A3A7_1FC1_47FA_96FA_65AAAED7C76A__INCLUDED_)
+#define AFX_CONNROAMER_H__0585A3A7_1FC1_47FA_96FA_65AAAED7C76A__INCLUDED_
 
+#if _MSC_VER > 1000
+#pragma once
+#endif // _MSC_VER > 1000
+ 
 /*
 ** INCLUDES
 ** ----------------------------------------------------------------------------
@@ -25,8 +18,10 @@
 ** Needed as building block for the priority queue. It stores the coordinates
 ** and a bank_account snapshot of a cell.
 */
-struct CRoamerCell
-{ 
+class CRoamerCell
+{
+public:
+ 
 	/*
 	** CONSTRUCTION / DESTRUCTION
 	** ------------------------------------------------------------------------
@@ -39,6 +34,7 @@ struct CRoamerCell
 	** ATTRIBUTES
 	** ------------------------------------------------------------------------
 	*/
+public:
 	double bank_account;
 	int    row;
 	int    col;
@@ -68,14 +64,14 @@ class CConnRoamer
 	** ------------------------------------------------------------------------
 	*/
 public:
-	CConnRoamer(CSpreadMatrix &work_mtx, CSpreadMatrix &resist_mtx, double bank_account);
+	CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val);
  
 	/*
 	** METHODS
 	** ------------------------------------------------------------------------
 	*/
 	double Spread(int aRow, int aCol);
-	const double &getBankAccount(){return _BankAccount;};
+	const double &getBankAccount(){return _SpreadVal;};
 	virtual ~CConnRoamer();
  
 	/*
@@ -83,18 +79,18 @@ public:
 	** ------------------------------------------------------------------------
 	*/
 private:
-	CSpreadMatrix &_WorkMTX;
-	CSpreadMatrix &_ResistMTX;
+	CMatrix &_WorkMTX;
+	CMatrix &_ResistMTX;
 	double	 _NoData;
-	double	 _BankAccount;
+	double	 _SpreadVal;
 	int		m_iColCount;
 	int		m_iRowCount;
 
 	std::priority_queue<CRoamerCell, 
-						std::deque<CRoamerCell>,
+						std::vector<CRoamerCell>,
 						std::less<CRoamerCell>
 						> pq;
 	CNeighborhood nb;
 };
 
-#endif // _CONN_ROAMER_H_
+#endif // !defined(AFX_CONNROAMER_H__0585A3A7_1FC1_47FA_96FA_65AAAED7C76A__INCLUDED_)

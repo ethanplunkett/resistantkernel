@@ -1,15 +1,3 @@
-/*BGN::FILE_INFO*/
-// This file is part of the spread library.
-// Historically this algorithm has started life as a way to measure connectedness in CAPS
-// (aka Conservation Assessment and Prioritization System), a software package conceived at
-// the University of Massachusetts by Brad Compton, Kevin Mcgarigal and Eduard Ene, and 
-// implemented in C++ by Eduard Ene.
-// It has then been extracted and converted into a DLL for use from within APL by Eduard Ene
-// Ethan Plunkett has adapted the library into an R package, and updated the formula for
-// computing resistance loss.
-// This package is made available in the hope that it will be useful. Enjoy!
-/*END::FILE_INFO*/
-
 #ifndef _PRIVATE_SPREAD_H_
 #define _PRIVATE_SPREAD_H_
 

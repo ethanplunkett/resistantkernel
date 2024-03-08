@@ -1,8 +1,7 @@
-`raw.spread` <-
-function(spread.value, f.row, f.col, x){
+raw.spread <- function(x, spread.value, row, col){
 	x<-as.matrix(x)  # so dim call works properly
-	f.row <- as.integer(f.row)
-	f.col <- as.integer(f.col)
+	row <- as.integer(row)
+	col <- as.integer(col)
 	rows <- as.integer(dim(x)[1])
 	columns <- as.integer(dim(x)[2])
 	spread.value <- as.double(spread.value)	
@@ -12,8 +11,8 @@ function(spread.value, f.row, f.col, x){
 	
 	result<-.C("rspread", 
 			as.double(spread.value), 
-			as.integer(f.row), 
-			as.integer(f.col), 
+			as.integer(row), 
+			as.integer(col), 
 			as.integer(rows), 
 			as.integer(columns),
 			as.double(x),

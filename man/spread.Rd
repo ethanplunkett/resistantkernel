@@ -6,14 +6,14 @@
   calculates a gaussian spread over a resistant surface.
 }
 \usage{
-spread(x, f.row, f.col, sd, cell.size = 1, sd.threshold = 3)
+spread(x, row, col, sd, cellsize = 1, sd.threshold = 3)
 }
 \arguments{
   \item{x}{ a matrix of resistance values all >=1 }
-  \item{f.row}{ the focal row of the spread }
-  \item{f.col}{ the focal column of the spread }
+  \item{row}{ the focal row of the spread }
+  \item{col}{ the focal column of the spread }
   \item{sd}{ the standard deviation of the gaussian function in cost length (resistance * physical distance) - the resulting spread will have this sd if applied to a minimally resistant surface (all 1's)}
-  \item{cell.size}{ the size of each cell (in physical units)  }
+  \item{cellsize}{ the size of each cell (in physical units)  }
   \item{sd.threshold}{ the number of standard deviations beyond which the height of the surface isn't calculated }
 }
 

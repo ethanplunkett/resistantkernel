@@ -1,21 +1,11 @@
-/*BGN::ERB_DEFINITION <%= get_block('..\spread\_spread.h', 'FILE_INFO') %> */
-// This file is part of the spread library.
-// Historically this algorithm has started life as a way to measure connectedness in CAPS
-// (aka Conservation Assessment and Prioritization System), a software package conceived at
-// the University of Massachusetts by Brad Compton, Kevin Mcgarigal and Eduard Ene, and 
-// implemented in C++ by Eduard Ene.
-// It has then been extracted and converted into a DLL for use from within APL by Eduard Ene
-// Ethan Plunkett has adapted the library into an R package, and updated the formula for
-// computing resistance loss.
-// This package is made available in the hope that it will be useful. Enjoy!
-/*END::ERB_EXPANSION*/
 #include "_spread.h"
 #include "spread.h"
 #include "Matrix.h"
 #include "ConnRoamer.h"
+
  
 /*
-** Internal variables
+** Internally used variables
 ** ----------------------------------------------------------------------------
 */
 double *wrk_buf			= NULL;
@@ -43,39 +33,21 @@ double *_reset_buf(int row_count, int col_count)
 		delete[] wrk_buf;
 
 		wrk_buf = new double[row_count * col_count];
+
+
+
 	};
 
-	CSpreadMatrix tmp_mtx(wrk_buf, row_count, col_count);
+	CMatrix tmp_mtx(wrk_buf, row_count, col_count);
 	tmp_mtx.fill(0);
 
 	return wrk_buf;
-}
+};
 
 
-/*
-===============================================================================
-**	FUNCTION DESCRIPTION:
-**	---------------------
-**	Wrapper for spread exported for use with R
-**	
-===============================================================================
-*/
-void rspread( double *spread_val,
-											int	*row_focal,
-											int	*col_focal,
-											int	*row_count,        /* R */
-											int	*col_count,        /* C */
-											double *resistance_matrix,
-											int *error_code
-											)/* R x C */
-{
-	*error_code = spread(*spread_val,
-						 *row_focal,
-						 *col_focal,
-						 *row_count,        /* R */
-						 *col_count,        /* C */
-						 resistance_matrix);
-}
+
+
+
 
 /*
 ===============================================================================
@@ -83,7 +55,7 @@ void rspread( double *spread_val,
 **	---------------------
 **	Does a connectedness style spread and returns the result in the
 **	resistance_matrix
-**	
+**	This function is exported for use from APL
 ===============================================================================
 */
 int spread(	double	spread_val,       /* bank account */
@@ -112,19 +84,34 @@ int spread(	double	spread_val,       /* bank account */
 	_reset_buf(row_count, col_count);
 
 	/* buid the needed wrapper objects */
-	CSpreadMatrix res_mtx(resistance_matrix, row_count, col_count);
-	CSpreadMatrix wrk_mtx(wrk_buf,           row_count, col_count);
+	CMatrix res_mtx(resistance_matrix, row_count, col_count);
+	CMatrix wrk_mtx(wrk_buf,           row_count, col_count);
 	CConnRoamer roamer(wrk_mtx, res_mtx, spread_val);
+
+	/* -------------------------------------------------- */
+//	std::string msg = str(boost::format("spread(%f, %d, %d, %d, %d, %X) : M(%d, %d)->%.20f, H[%d]")
+//											% spread_val
+//											% row_focal
+//											% col_focal
+//											% row_count
+//											% col_count
+//											% resistance_matrix
+//											% 0
+//											% 0
+//											% res_mtx(0, 0)
+//											% res_mtx.homogeneity());
+//	OutputDebugString(msg.c_str());
+	/* -------------------------------------------------- */
 
 	/* spread around */
 	roamer.Spread(row_focal, col_focal);
 
 	/*
 	** copy the resulting spread back into the resistence matrix
-	** and return the count of non-zero cels
+	** and return the count of non-zero cells
 	*/
 	return res_mtx.copy(wrk_mtx);
-}
+};
  
 /*
 ===============================================================================

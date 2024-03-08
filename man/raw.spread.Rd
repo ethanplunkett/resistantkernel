@@ -6,14 +6,15 @@
 This function takes a spread value, the focal cell coordinates, and
 a resistance matrix (all values >= 1); executes a resistant spread; and returns the final snapshot of the spread as a matrix.}
 \usage{
-raw.spread(spread.value, f.row, f.col, x)
+raw.spread(x, spread.value, row, col)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{spread.value}{ the initial bank account for the spread, which is depleted based on the resistance of each cell as the spread progresses.}
-  \item{f.row}{ the focal row  of the spread }
-  \item{f.col}{ the focal column of the spread }
   \item{x}{ the resistance matrix, all values must be >= 1 }
+  \item{spread.value}{ the initial bank account for the spread, which is depleted based on the resistance of each cell as the spread progresses.}
+  \item{row}{ the focal row  of the spread }
+  \item{col}{ the focal column of the spread }
+  
 }
 \details{
 	This calculates the functional proximity of each cell to the focal cell.  With the proximity highest at the focal cell where it is equal to the spread.value and diminishing with distance from the focal cell (based on the resistance of intervening cells).  The functional proximity thus is zero for cells with a functional distance greater than spread.value from the focal cell (regardless of how much greater). In practice larger spread values allow calculation of a larger functional distances but requires more processor time. }
@@ -25,6 +26,7 @@ raw.spread(spread.value, f.row, f.col, x)
 \author{ Ethan Plunkett }
 \seealso{ \code{\link{spread}} }
 \examples{
+require(spread)
 # Create (minimally resistant) test matrix 
 a <- matrix(1, 5, 5)
 a

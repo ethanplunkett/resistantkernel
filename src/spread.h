@@ -32,37 +32,20 @@
 **    therefore repeatedly changing the input data extents may decrease performance
 **    due to reallocation costs
 ** f. row_focal and col_focal are expected to use a base value of 1 (that is the 
-**    first row = first column = 1 ) conforming to APL standards
+**    first row = first column = 1 ) conforming to APL and S+ standards
 */
-extern "C" __declspec(dllexport) int spread(	double	spread_val,        /* bank account */
+
+
+extern "C"  void clean_up();
+
+
+int spread(	double	spread_val,       /* bank account */
 											int		row_focal,
 											int		col_focal,
-											int		row_count,         /* R */
-											int		col_count,         /* C */
+											int		row_count,        /* R */
+											int		col_count,        /* C */
 											double *resistance_matrix);/* R x C */
 
-
-/*
-**
-**	 Wrapper function for spread to be exported for use from R
-**			Adjusts for limitations of R 
-**			1. Passes all arguments as pointers
-**			2. Can't handle returned value (instead returns error code via a argument passed by reference)	
-*/
-extern "C" __declspec(dllexport) void rspread(	double	*spread_val,       /* bank account */
-												int		*row_focal,
-												int		*col_focal,
-												int		*row_count,        /* R */
-												int		*col_count,        /* C */
-												double *resistance_matrix,
-												int *error_code);/* R x C */
-
-
-/*
-** Frees the work buffer and reinitializes the internal variables.
-** To be used once after the last call to spread/rspread.
-*/
-extern "C" __declspec(dllexport) void clean_up();
 
 /* ERROR CODES */
 #define ERR_BAD_SPREAD_VAL         -1
