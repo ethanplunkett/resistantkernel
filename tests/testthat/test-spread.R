@@ -11,8 +11,7 @@ test_that("noah's spread bug is avoided", {
   sd_meters <- 1300
   buffer <- 34
   center <- buffer+1
-  data("resmat", package="resistantkernel")
-  
+  res.mat <- noah_res_mat
   
   # Broken call to spread (r function)
   expect_no_error(
@@ -51,7 +50,7 @@ test_that("noah's spread bug is avoided", {
   expect_no_error(
     result <- .C("rspread", as.double(spread.value), as.integer(f.row), 
                  as.integer(f.col), as.integer(rows), as.integer(columns), 
-                 as.double(x), as.integer(error.msg), PACKAGE = "spread")
+                 as.double(x), as.integer(error.msg), PACKAGE = "resistantkernel")
   )
   
   
