@@ -15,6 +15,9 @@ Code.Rproj
 # Ignore edit pad __history folders
 __history/
 
+# Ignore compiled objects
+*.o
+*.dll
 
-
-
+# Ignore platform specific source files created by devtools
+src-x86_64/
