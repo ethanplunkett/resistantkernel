@@ -94,8 +94,8 @@ public:
 	*/
 private:
 	double *_DataPtr;
-	double	_NoData;
 	int		_RowCount;
 	int		_ColCount;
+	double	_NoData;
  };
 #endif
