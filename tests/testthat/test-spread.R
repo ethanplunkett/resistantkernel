@@ -22,35 +22,35 @@ test_that("noah's spread bug is avoided", {
                       cellsize=30)
   )
   
-  # Broken call to raw.spread (r function)
+  # Broken call to raw_spread (r function)
   # Calculate arguments
   cell.size=30
-  sd.cell <- sd_meters/cell.size
-  sd.threshold = 3
-  bank.account <- ceiling(sd.cell * sd.threshold)
-  f.row=center
-  f.col=center
+  sd_cell <- sd_meters/cell.size
+  sd_threshold = 3
+  bank_account <- ceiling(sd_cell * sd_threshold)
+  f_row=center
+  f_col=center
   x = res.mat
   
   # broken call to raw spread
   expect_no_error(
-    raw.spread(x=x, spread.value=bank.account, row=f.row, col=f.col)
+    raw_spread(x=x, spread_value=bank_account, row=f_row, col=f_col)
   )
   # broken call to .C("spread")
   # calculate arguments
   x <- as.matrix(x)
-  f.row <- as.integer(f.row)
-  f.col <- as.integer(f.col)
+  f_row <- as.integer(f_row)
+  f_col <- as.integer(f_col)
   rows <- as.integer(dim(x)[1])
   columns <- as.integer(dim(x)[2])
-  spread.value <- as.double(bank.account)
+  spread_value <- as.double(bank_account)
   x <- as.double(as.vector(t(x)))
-  error.msg <- as.integer(0)
+  error_msg <- as.integer(0)
   
   expect_no_error(
-    result <- .C("rspread", as.double(spread.value), as.integer(f.row), 
-                 as.integer(f.col), as.integer(rows), as.integer(columns), 
-                 as.double(x), as.integer(error.msg), PACKAGE = "resistantkernel")
+    result <- .C("rspread", as.double(spread_value), as.integer(f_row), 
+                 as.integer(f_col), as.integer(rows), as.integer(columns), 
+                 as.double(x), as.integer(error_msg), PACKAGE = "resistantkernel")
   )
   
   
