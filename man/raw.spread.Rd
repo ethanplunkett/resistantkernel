@@ -26,7 +26,7 @@ raw.spread(x, spread.value, row, col)
 \author{ Ethan Plunkett }
 \seealso{ \code{\link{spread}} }
 \examples{
-require(spread)
+
 # Create (minimally resistant) test matrix 
 a <- matrix(1, 5, 5)
 a

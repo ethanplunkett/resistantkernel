@@ -17,7 +17,7 @@ raw.spread <- function(x, spread.value, row, col){
 			as.integer(columns),
 			as.double(x),
 			as.integer(error.msg),
-			PACKAGE="spread")
+			PACKAGE="resistantkernel")
 	if (error.msg < 0) stop("spread function in dll/so reported error")
 	
 	matrix(result[[6]],rows, columns, byrow=TRUE)
