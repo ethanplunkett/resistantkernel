@@ -11,7 +11,7 @@ spread <- function(x, row, col, sd, cellsize=1, sd.threshold=3){
 
 	# calculate distance to focal cell in physical (not cell size) units - accounting for resitance
 	dist.to.center <- (bank.account-result)*cellsize  
-	gaussian.result <- dnorm(dist.to.center, mean=0, sd=sd)
+	gaussian.result <- stats::dnorm(dist.to.center, mean=0, sd=sd)
 		
 	# Cleanup:
 	gaussian.result[dist.to.center > sd.threshold*sd] <- 0
