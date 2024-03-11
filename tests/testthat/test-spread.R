@@ -20,16 +20,16 @@ test_that("noah's spread bug is avoided", {
   
   sd_meters <- 1300
   buffer <- 34
-  center <- buffer+1
-  res.mat <- noah_res_mat
+  center <- buffer + 1
+  res_mat <- noah_res_mat
   
   # Broken call to spread (r function)
   expect_no_error(
-    spr.out <- spread(x=res.mat,
-                      row=center,
-                      col=center, 
-                      sd=sd_meters, 
-                      cellsize=30)
+    spr_out <- spread(x = res_mat,
+                      row = center,
+                      col = center, 
+                      sd = sd_meters, 
+                      cellsize = 30)
   )
 
   skip("In depth testing for Noah's bug") 
@@ -38,17 +38,17 @@ test_that("noah's spread bug is avoided", {
   
   # Broken call to raw_spread (r function)
   # Calculate arguments
-  cell.size=30
-  sd_cell <- sd_meters/cell.size
-  sd_threshold = 3
+  cellsize <- 30
+  sd_cell <- sd_meters / cellsize
+  sd_threshold <- 3
   bank_account <- ceiling(sd_cell * sd_threshold)
-  f_row=center
-  f_col=center
-  x = res.mat
+  f_row <- center
+  f_col <- center
+  x <- res_mat
   
   # broken call to raw spread
   expect_no_error(
-    raw_spread(x=x, spread_value=bank_account, row=f_row, col=f_col)
+    raw_spread(x = x, spread_value = bank_account, row = f_row, col = f_col)
   )
   # broken call to .C("spread")
   # calculate arguments

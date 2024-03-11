@@ -11,6 +11,8 @@
   * Switch to semantic versioning.
   * Import changes made in Edi's code base.
   * Convert to snake_case naming convention.
+  * Check spelling
+  * Lint
   
 
 # Brief history of this project
@@ -37,7 +39,8 @@ private packages for many years:.
    DLL's.  This adds 64 bit support but is not cross platform nor CRAN 
    compatible.
 6. March 2024  **resistantkernel** package is created from the ashes of the 
-   old **spread** package, and precompiled DLL's dropped from **gridprocess**.
+   old **spread** package with integrated CRAN compatible, cross-platform C++ 
+   code. Precompiled DLL's dropped from **gridprocess**.
    
    
 
