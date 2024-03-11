@@ -21,3 +21,4 @@ __history/
 
 # Ignore platform specific source files created by devtools
 src-x86_64/
+docs
