@@ -63,7 +63,8 @@ int spread(	double	spread_val,       /* bank account */
 			int		col_focal,
 			int		row_count,        /* R */
 			int		col_count,        /* C */
-			double *resistance_matrix) /* R x C */
+			double *resistance_matrix, 
+			int symmetrical) /* R x C */
 {
 	/* verify assumptions */
 	if(spread_val <= 0)           return ERR_BAD_SPREAD_VAL        ;
@@ -72,7 +73,7 @@ int spread(	double	spread_val,       /* bank account */
 	if(row_count  <= 0)           return ERR_BAD_ROW_COUNT         ;
 	if(col_count  <= 0)           return ERR_BAD_COL_COUNT         ;
 	if(resistance_matrix == NULL) return ERR_NULL_RESISTANCE_MATRIX;
-
+  
 	/*
 	** APL uses an array index base of one so we need to 
 	** do a small correction here (re-basing)
@@ -83,10 +84,12 @@ int spread(	double	spread_val,       /* bank account */
 	/* re-init the work buffer */
 	_reset_buf(row_count, col_count);
 
+	bool is_symmetrical = symmetrical;
+	
 	/* buid the needed wrapper objects */
 	CMatrix res_mtx(resistance_matrix, row_count, col_count);
 	CMatrix wrk_mtx(wrk_buf,           row_count, col_count);
-	CConnRoamer roamer(wrk_mtx, res_mtx, spread_val);
+	CConnRoamer roamer(wrk_mtx, res_mtx, spread_val, is_symmetrical);
 
 	/* -------------------------------------------------- */
 //	std::string msg = str(boost::format("spread(%f, %d, %d, %d, %d, %X) : M(%d, %d)->%.20f, H[%d]")

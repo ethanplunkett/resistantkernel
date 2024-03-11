@@ -12,39 +12,49 @@
 #' `spread_value` from the focal cell, regardless of how much greater. In 
 #' practice larger spread values allow calculation of a larger functional
 #' distances but requires more processor time. 
-#' #' 
+#' 
 #' @param x the resistance matrix, all values must be >= 1
 #' @param spread_value the initial bank account for the spread, which is
 #' depleted based on the resistance of each cell as the spread progresses.
 #' @param row the focal row of the spread
 #' @param col the focal column of the spread
+#' @param symmetrical If `TRUE` then the average resistance of the source 
+#' and neighboring destination cell is used to represent the cost of travelling
+#' between them.  If `FALSE` then the destination cell is used to represent
+#' the cost of the path.  The original 2009 algorithm is equivalent to `FALSE`.
+#' If `TRUE` then the cost difference between the source and any destination 
+#' will be the same as the cost distance from that destination to the source.
+#' If `FALSE` that is not guaranteed as the source cell cost is not included
+#' and the full destination cell cost is. 
 #' @return A matrix with the same dimensions as `x` the values of which
 #' represent the functional proximity to the focal cell.  They range from
 #' `spread_value` (at the focal cell) to zero for cells greater than
-#' `spread_value` away from the focal cell.
+#' `spread_value` (cost) away from the focal cell.
 #' @author Ethan Plunkett
 #' @seealso [spread]
 #' @examples
 #'
 #' # Create (minimally resistant) test matrix 
-#' res <- matrix(1, 5, 5)
-#' res
-#' raw_spread(res, 10, 3, 3)
+#' a <- matrix(1, 5, 5)
+#' a
+#' raw_spread(a, 10, 3, 3, TRUE)
 #' 
 #' # Add two higher resistance bands
-#' res[2, ]  <- 5
-#' res[,2] <- 5
-#' res
-#' raw_spread(res, 10, 3, 3)
-#' 
+#' a[2, ]  <- 5
+#' a[,2] <- 5
+#' a
+#' raw_spread(a, 10, 3, 3, FALSE) # Average of source and destination resistance
+#' raw_spread(a, 10, 3, 3, TRUE)  # Destination resistance
 #' @export 
-raw_spread <- function(x, spread_value, row, col){
+raw_spread <- function(x, spread_value, row, col, symmetrical = TRUE){
 	x<-as.matrix(x)  # so dim call works properly
 	row <- as.integer(row)
 	col <- as.integer(col)
 	rows <- as.integer(dim(x)[1])
 	columns <- as.integer(dim(x)[2])
 	spread_value <- as.double(spread_value)	
+	symmetrical <- as.integer(symmetrical)
+	stopifnot(symmetrical %in% c(0, 1))
 	x<-as.double(as.vector(t(x))) #convert to vector for passing to C
 	
 	error.msg <- as.integer(0)
@@ -57,6 +67,7 @@ raw_spread <- function(x, spread_value, row, col){
 			as.integer(columns),
 			as.double(x),
 			as.integer(error.msg),
+		  symmetrical,
 			PACKAGE="resistantkernel")
 	if (error.msg < 0) stop("spread function in dll/so reported error")
 	

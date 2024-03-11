@@ -4,7 +4,7 @@
 \alias{raw_spread}
 \title{Interface for the C++ spread code - mainly for internal use}
 \usage{
-raw_spread(x, spread_value, row, col)
+raw_spread(x, spread_value, row, col, symmetrical = TRUE)
 }
 \arguments{
 \item{x}{the resistance matrix, all values must be >= 1}
@@ -15,12 +15,21 @@ depleted based on the resistance of each cell as the spread progresses.}
 \item{row}{the focal row of the spread}
 
 \item{col}{the focal column of the spread}
+
+\item{symmetrical}{If \code{TRUE} then the average resistance of the source
+and neighboring destination cell is used to represent the cost of travelling
+between them.  If \code{FALSE} then the destination cell is used to represent
+the cost of the path.  The original 2009 algorithm is equivalent to \code{FALSE}.
+If \code{TRUE} then the cost difference between the source and any destination
+will be the same as the cost distance from that destination to the source.
+If \code{FALSE} that is not guaranteed as the source cell cost is not included
+and the full destination cell cost is.}
 }
 \value{
 A matrix with the same dimensions as \code{x} the values of which
 represent the functional proximity to the focal cell.  They range from
 \code{spread_value} (at the focal cell) to zero for cells greater than
-\code{spread_value} away from the focal cell.
+\code{spread_value} (cost) away from the focal cell.
 }
 \description{
 \code{raw_spread()} takes a spread value, the focal cell coordinates, and a
@@ -36,21 +45,20 @@ proximity thus is zero for cells with a functional distance greater than
 \code{spread_value} from the focal cell, regardless of how much greater. In
 practice larger spread values allow calculation of a larger functional
 distances but requires more processor time.
-#'
 }
 \examples{
 
 # Create (minimally resistant) test matrix 
 a <- matrix(1, 5, 5)
 a
-raw_spread(10, 3, 3, a)
+raw_spread(a, 10, 3, 3, TRUE)
 
 # Add two higher resistance bands
 a[2, ]  <- 5
 a[,2] <- 5
 a
-raw_spread(10, 3, 3, a)
-
+raw_spread(a, 10, 3, 3, FALSE) # Average of source and destination resistance
+raw_spread(a, 10, 3, 3, TRUE)  # Destination resistance
 }
 \seealso{
 \link{spread}

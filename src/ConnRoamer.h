@@ -64,7 +64,7 @@ class CConnRoamer
 	** ------------------------------------------------------------------------
 	*/
 public:
-	CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val);
+	CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool symmetrical);
  
 	/*
 	** METHODS
@@ -85,6 +85,7 @@ private:
 	double	 _SpreadVal;
 	int		m_iColCount;
 	int		m_iRowCount;
+	bool _Symmetrical;
 
 	std::priority_queue<CRoamerCell, 
 						std::vector<CRoamerCell>,

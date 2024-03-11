@@ -4,7 +4,7 @@
 \alias{spread}
 \title{Calculate a Gaussian  resistant kernel}
 \usage{
-spread(x, row, col, sd, cellsize = 1, sd.threshold = 3)
+spread(x, row, col, sd, cellsize = 1, sd_threshold = 3, symmetrical = TRUE)
 }
 \arguments{
 \item{x}{a matrix of resistance values all >=1}
@@ -19,8 +19,17 @@ applied to a minimally resistant surface (all 1's)}
 
 \item{cellsize}{the size of each cell (in physical units)}
 
-\item{sd.threshold}{the number of standard deviations beyond which the
+\item{sd_threshold}{the number of standard deviations beyond which the
 height of the surface isn't calculated}
+
+\item{symmetrical}{If \code{TRUE} then the average resistance of the source
+and neighboring destination cell is used to represent the cost of travelling
+between them.  If \code{FALSE} then the destination cell is used to represent
+the cost of the path.  The original 2009 algorithm is equivalent to \code{FALSE}.
+If \code{TRUE} then the cost difference between the source and any destination
+will be the same as the cost distance from that destination to the source.
+If \code{FALSE} that is not guaranteed as the source cell cost is not included
+and the full destination cell cost is.}
 }
 \value{
 a matrix with the same dimensions as \code{x} but representing a
@@ -30,11 +39,11 @@ guassian spread from the focal cell.
 Calculates a Gaussian spread (resistant kernel)
 }
 \note{
-The height of the kernel returned is dependent on the sd and is the
-same as you'd get by calling \code{dnorm(cost.length.to.center, sd=sd)}.
-One side effect of this is that the larger the sd the lower the height.  You
-can normalize this by dividing the resultant kernel by dnorm(0, sd=sd) which
-would then make the height at the center of the kernel 1.
+The height of the kernel returned is dependent on the \code{sd} and is the
+same as you'd get by calling \code{dnorm(cost_dist_to_center, sd=sd)}.
+One side effect of this is that the larger the \code{sd} the lower the height.
+You can normalize this by dividing the resultant kernel by dnorm(0, sd=sd)
+which would then make the height at the center of the kernel 1.
 }
 \examples{
 #' # a minimally resistant matrix:
@@ -63,7 +72,4 @@ Pools. \emph{Conservation Biology} \bold{21}, 788-799.
 }
 \seealso{
 \link{raw_spread}
-}
-\author{
-Ethan Plunkett
 }

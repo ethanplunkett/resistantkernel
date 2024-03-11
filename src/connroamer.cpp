@@ -8,10 +8,11 @@
 **	Constructor
 ===============================================================================
 */
-CConnRoamer::CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val) :
+CConnRoamer::CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool symmetrical) :
 	_WorkMTX(work_mtx),
 	_ResistMTX(resist_mtx),
 	_SpreadVal(spread_val),
+	_Symmetrical(symmetrical),
 	nb(_ResistMTX, EIGHT_NEIGHBOR)
 {
 	m_iColCount	= _ResistMTX.getColCount();
@@ -79,9 +80,12 @@ double CConnRoamer::Spread(int aRow, int aCol)
 				double &work_cell = _WorkMTX(nc->Row(), nc->Col());
 				if(!(work_cell < 0)) 
 				{
-//					new_cell_val = pivot_cell_val - nc->Coef() * _ResistMTX(nc->Row(), nc->Col());
-					new_cell_val = pivot_cell_val - nc->Coef() * ( _ResistMTX(nc->Row(), nc->Col()) +  _ResistMTX(r, c))/2;  // Modified by EBP to use the average of the two cell's resistances
-
+				  if(_Symmetrical)
+				  {
+				    new_cell_val = pivot_cell_val - nc->Coef() * ( _ResistMTX(nc->Row(), nc->Col()) +  _ResistMTX(r, c))/2;  // Modified by EBP to use the average of the two cell's resistances
+				  }  else {
+  					new_cell_val = pivot_cell_val - nc->Coef() * _ResistMTX(nc->Row(), nc->Col());  // Non symmetrical
+				  };
 
 					if((new_cell_val > 0) && (work_cell < new_cell_val))
 					{
