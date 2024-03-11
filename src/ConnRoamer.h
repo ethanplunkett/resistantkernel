@@ -64,7 +64,7 @@ class CConnRoamer
 	** ------------------------------------------------------------------------
 	*/
 public:
-	CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool symmetrical);
+	CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool use_long_diag = true, bool symmetrical = false);
  
 	/*
 	** METHODS

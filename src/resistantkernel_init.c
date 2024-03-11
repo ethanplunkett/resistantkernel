@@ -6,10 +6,10 @@
 */
 
 /* .C calls */
-extern void rspread(void *, void *, void *, void *, void *, void *, void *, void *);
+extern void rspread(void *, void *, void *, void *, void *, void *, void *, void *, void *);
 
 static const R_CMethodDef CEntries[] = {
-    {"rspread", (DL_FUNC) &rspread, 8},
+    {"rspread", (DL_FUNC) &rspread, 9},
     {NULL, NULL, 0}
 };
 

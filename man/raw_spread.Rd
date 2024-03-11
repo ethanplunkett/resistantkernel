@@ -4,7 +4,7 @@
 \alias{raw_spread}
 \title{Interface for the C++ spread code - mainly for internal use}
 \usage{
-raw_spread(x, spread_value, row, col, symmetrical = TRUE)
+raw_spread(x, spread_value, row, col, square = FALSE, symmetrical = TRUE)
 }
 \arguments{
 \item{x}{the resistance matrix, all values must be >= 1}
@@ -16,12 +16,21 @@ depleted based on the resistance of each cell as the spread progresses.}
 
 \item{col}{the focal column of the spread}
 
+\item{square}{if \code{TRUE} then the diagonal cells will be considered to be one
+cell length away from the center and the spread will tend to be square.
+The default of \code{FALSE} uses a diagonal length of 1.4 cells and spreads
+tend to be octagonal.}
+
 \item{symmetrical}{If \code{TRUE} then the average resistance of the source
-and neighboring destination cell is used to represent the cost of travelling
-between them.  If \code{FALSE} then the destination cell is used to represent
-the cost of the path.  The original 2009 algorithm is equivalent to \code{FALSE}.
-If \code{TRUE} then the cost difference between the source and any destination
-will be the same as the cost distance from that destination to the source.
+and neighboring destination cell is used to represent the cost of stepping
+to a neighboring cell. If \code{FALSE} then the destination cell is used to
+represent the cost of the step.
+The original 2009 algorithm is equivalent to \code{FALSE}.
+If \code{TRUE} then the cost difference between a source and any
+(not necessarily adjacent) destination  will be the same as the cost
+distance from that destination to the source,
+and both will include half the cost of traversing the source and destination
+cells.
 If \code{FALSE} that is not guaranteed as the source cell cost is not included
 and the full destination cell cost is.}
 }
@@ -51,14 +60,23 @@ distances but requires more processor time.
 # Create (minimally resistant) test matrix 
 a <- matrix(1, 5, 5)
 a
-raw_spread(a, 10, 3, 3, TRUE)
+raw_spread(a, 10, 3, 3, FALSE, TRUE)
 
 # Add two higher resistance bands
 a[2, ]  <- 5
 a[,2] <- 5
 a
-raw_spread(a, 10, 3, 3, FALSE) # Average of source and destination resistance
-raw_spread(a, 10, 3, 3, TRUE)  # Destination resistance
+# Average of source and destination resistance used with each step
+raw_spread(a, 10, 3, 3, square = FALSE, symmetrical =  FALSE) 
+
+# Destination resistance used with each step
+raw_spread(a, 10, 3, 3, square = FALSE, symmetrical = TRUE)  
+
+
+# Square: the diagonal cost same as orthogonal 
+a[,] <- 1
+raw_spread(a, 10, 3, 3, square = TRUE, symmetrical =  FALSE) 
+
 }
 \seealso{
 \link{spread}

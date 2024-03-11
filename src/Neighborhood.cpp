@@ -10,12 +10,12 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CNeighborhood::CNeighborhood(CMatrix &aGrid, int aNeighborhoodType) :
+CNeighborhood::CNeighborhood(CMatrix &aGrid, int aNeighborhoodType, bool use_long_diag) :
     m_oSrcGrid(aGrid), m_iNeighborhoodType(aNeighborhoodType),
-		m_oNE_Neighbor(/*row*/ N_SHIFT, /*col*/E_SHIFT, DIAG_COEF),
-		m_oNW_Neighbor(/*row*/ N_SHIFT, /*col*/W_SHIFT, DIAG_COEF),
-		m_oSE_Neighbor(/*row*/ S_SHIFT, /*col*/E_SHIFT, DIAG_COEF),
-		m_oSW_Neighbor(/*row*/ S_SHIFT, /*col*/W_SHIFT, DIAG_COEF),
+		m_oNE_Neighbor(/*row*/ N_SHIFT, /*col*/E_SHIFT, (use_long_diag ? DIAG_COEF_LONG : DIAG_COEF_SHORT)),
+		m_oNW_Neighbor(/*row*/ N_SHIFT, /*col*/W_SHIFT, (use_long_diag ? DIAG_COEF_LONG : DIAG_COEF_SHORT)),
+		m_oSE_Neighbor(/*row*/ S_SHIFT, /*col*/E_SHIFT, (use_long_diag ? DIAG_COEF_LONG : DIAG_COEF_SHORT)),
+		m_oSW_Neighbor(/*row*/ S_SHIFT, /*col*/W_SHIFT, (use_long_diag ? DIAG_COEF_LONG : DIAG_COEF_SHORT)),
 		m_oN_Neighbor (/*row*/ N_SHIFT, /*col*/NOSHIFT),
 		m_oS_Neighbor (/*row*/ S_SHIFT, /*col*/NOSHIFT),
 		m_oE_Neighbor (/*row*/ NOSHIFT, /*col*/E_SHIFT),

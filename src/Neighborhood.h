@@ -13,7 +13,10 @@
 		CELL_NAME.Row() = m_iPivotRow + CELL_NAME.RowShift();\
 		CELL_NAME.Col() = m_iPivotCol + CELL_NAME.ColShift();\
 		CELL_NAME.Valid() = true;
-const double DIAG_COEF = 1.4;
+const double DIAG_COEF_LONG  = 1.4;
+const double DIAG_COEF_SHORT = 1.0;
+const double DIAG_COEF_NONE  = 1.0; // for non-diagonal neighbors
+
  
 /*
 ** INCLUDES
@@ -201,7 +204,7 @@ public:
 			};
 		};
 	};
-	CNeighborhood(CMatrix &aGrid, int aNeighborhoodType);
+	CNeighborhood(CMatrix &aGrid, int aNeighborhoodType, bool use_long_diag = true);
 	virtual ~CNeighborhood();
 
 };

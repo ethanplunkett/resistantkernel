@@ -32,7 +32,7 @@ test_that("noah's spread bug is avoided", {
                       cellsize=30)
   )
 
-  skip() 
+  skip("In depth testing for Noah's bug") 
   # Remainder of this test recreates traces the error into lower level
   # function calls
   

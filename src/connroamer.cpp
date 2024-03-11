@@ -8,12 +8,12 @@
 **	Constructor
 ===============================================================================
 */
-CConnRoamer::CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool symmetrical) :
+CConnRoamer::CConnRoamer(CMatrix &work_mtx, CMatrix &resist_mtx, double spread_val, bool use_long_diag, bool symmetrical) :
 	_WorkMTX(work_mtx),
 	_ResistMTX(resist_mtx),
 	_SpreadVal(spread_val),
 	_Symmetrical(symmetrical),
-	nb(_ResistMTX, EIGHT_NEIGHBOR)
+	nb(_ResistMTX, EIGHT_NEIGHBOR, use_long_diag)
 {
 	m_iColCount	= _ResistMTX.getColCount();
 	m_iRowCount	= _ResistMTX.getRowCount();
@@ -77,7 +77,7 @@ double CConnRoamer::Spread(int aRow, int aCol)
 			nc = nb[i];
 			if(nc->Valid())
 			{				
-				double &work_cell = _WorkMTX(nc->Row(), nc->Col());
+				volatile double &work_cell = _WorkMTX(nc->Row(), nc->Col());
 				if(!(work_cell < 0)) 
 				{
 				  if(_Symmetrical)

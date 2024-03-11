@@ -14,6 +14,7 @@ spread(x, ...)
   sd,
   cellsize = 1,
   sd_threshold = 3,
+  square = FALSE,
   symmetrical = TRUE,
   ...
 )
@@ -37,12 +38,21 @@ resistant surface: resistance of 1 for all cells.}
 \item{sd_threshold}{the number of standard deviations beyond which the
 height of the surface is not calculated}
 
+\item{square}{if \code{TRUE} then the diagonal cells will be considered to be one
+cell length away from the center and the spread will tend to be square.
+The default of \code{FALSE} uses a diagonal length of 1.4 cells and spreads
+tend to be octagonal.}
+
 \item{symmetrical}{If \code{TRUE} then the average resistance of the source
-and neighboring destination cell is used to represent the cost of travelling
-between them.  If \code{FALSE} then the destination cell is used to represent
-the cost of the path.  The original 2009 algorithm is equivalent to \code{FALSE}.
-If \code{TRUE} then the cost difference between the source and any destination
-will be the same as the cost distance from that destination to the source.
+and neighboring destination cell is used to represent the cost of stepping
+to a neighboring cell. If \code{FALSE} then the destination cell is used to
+represent the cost of the step.
+The original 2009 algorithm is equivalent to \code{FALSE}.
+If \code{TRUE} then the cost difference between a source and any
+(not necessarily adjacent) destination  will be the same as the cost
+distance from that destination to the source,
+and both will include half the cost of traversing the source and destination
+cells.
 If \code{FALSE} that is not guaranteed as the source cell cost is not included
 and the full destination cell cost is.}
 }
@@ -57,8 +67,9 @@ Calculate a Gaussian resistant kernel
 The height of the kernel returned is dependent on the \code{sd} and is the
 same as you'd get by calling \code{dnorm(cost_dist_to_center, sd=sd)}.
 One side effect of this is that the larger the \code{sd} the lower the height.
-You can normalize this by dividing the resultant kernel by \code{dnorm(0, sd=sd)}
-which would then make the height at the center of the kernel 1.
+You can normalize this by dividing the resultant kernel by
+\code{dnorm(0, sd = sd)} which would then make the height at the center of
+the kernel 1.
 }
 \examples{
 #' # a minimally resistant matrix:

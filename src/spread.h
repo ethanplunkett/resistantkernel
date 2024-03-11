@@ -45,6 +45,7 @@ int spread(	double	spread_val,       /* bank account */
 											int		row_count,        /* R */
 											int		col_count,        /* C */
 											double *resistance_matrix,
+											int use_long_diag,
 											int symemetrical);
 
 

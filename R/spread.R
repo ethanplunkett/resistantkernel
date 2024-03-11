@@ -17,8 +17,9 @@
 #' @note The height of the kernel returned is dependent on the `sd` and is the
 #' same as you'd get by calling `dnorm(cost_dist_to_center, sd=sd)`.
 #' One side effect of this is that the larger the `sd` the lower the height.
-#' You can normalize this by dividing the resultant kernel by `dnorm(0, sd=sd)`
-#' which would then make the height at the center of the kernel 1. 
+#' You can normalize this by dividing the resultant kernel by 
+#' `dnorm(0, sd = sd)` which would then make the height at the center of
+#' the kernel 1. 
 #' @seealso [raw_spread]
 #' @references Compton BW, McGarigal K, Cushman SA, Gamble LR. 
 #' A resistant-kernel model of connectivity for amphibians that breed in 
@@ -51,7 +52,7 @@ spread <- function(x, ...) UseMethod("spread")
 #' @export
 #' @rdname spread
 spread.matrix <- function(x, row, col, sd, cellsize = 1, sd_threshold = 3, 
-                   symmetrical = TRUE, ...){
+                   square = FALSE, symmetrical = TRUE, ...){
 	
   sd_cell <- sd/cellsize  #convert to cell units
 						
@@ -60,7 +61,7 @@ spread.matrix <- function(x, row, col, sd, cellsize = 1, sd_threshold = 3,
 		# threshold in a minimally resistant landscape 
 		
 	result <- raw_spread(x=x, spread_value=bank_account, row=row, 
-	                     col=col, symmetrical = symmetrical)
+	                     col=col, square = square, symmetrical = symmetrical)
 	# raw_spread returns the result of linear decay in the bank account 
 	# (1  per cell) given a minimally resistant landscape
 

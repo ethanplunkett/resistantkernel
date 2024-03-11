@@ -50,20 +50,44 @@ double *_reset_buf(int row_count, int col_count)
 
 
 /*
-===============================================================================
-**	FUNCTION DESCRIPTION:
-**	---------------------
-**	Does a connectedness style spread and returns the result in the
-**	resistance_matrix
-**	This function is exported for use from APL
-===============================================================================
-*/
+ ===============================================================================
+ Function: SPREAD
+ The function takes a spread value, the focal cell coordinates and a 
+ resistance matrix, executes the spread and  returns the final snapshot of
+ the spread into the resistance matrix which acts as a receiver of the output.
+ If the function is successful it returns a positive value equal to the
+ number of touched cells in the final snapshot otherwise it returns a
+ negative number representing the error code.
+ When the parameter "use_long_diag" is non-zero the algorithm uses 1.4 for
+ the diagonal coefficient otherwise it uses 1. No other check is performed on
+ this parameter.
+ 
+ ASSUMPTIONS: see the "SPECIFIC RETURN CODES" section
+ 
+ NOTES:
+ a. the error code is the negative of the id of the violated assumption (see above)
+ b. error codes of -100 and under (-101, -102 etc) represent internal 
+ errors or exceptions caught during execution
+ c. the array allocation, deallocation and other memory management issues are the
+ responsability of the caller, no deallocation should occur before the return 
+ from the function (by another thread in the caller application for instance)
+ d. once the caller does not need the spread routine anymore it should call
+ clean_up() to free internally used buffers.
+ e. internally used bufffers are reallocated when the row / col counts change
+ therefore repeatedly changing the input data extents may decrease performance
+ due to reallocation costs
+ f. row_focal and col_focal are expected to use a base value of 1 (that is the 
+ first row = first column = 1 ) conforming to APL standards
+ g. any negative value in the resistance matrix is considered as NO_DATA
+ 
+ =============================================================================== */
 int spread(	double	spread_val,       /* bank account */
 			int		row_focal,
 			int		col_focal,
 			int		row_count,        /* R */
 			int		col_count,        /* C */
 			double *resistance_matrix, 
+			int use_long_diag,
 			int symmetrical) /* R x C */
 {
 	/* verify assumptions */
@@ -84,12 +108,10 @@ int spread(	double	spread_val,       /* bank account */
 	/* re-init the work buffer */
 	_reset_buf(row_count, col_count);
 
-	bool is_symmetrical = symmetrical;
-	
 	/* buid the needed wrapper objects */
 	CMatrix res_mtx(resistance_matrix, row_count, col_count);
 	CMatrix wrk_mtx(wrk_buf,           row_count, col_count);
-	CConnRoamer roamer(wrk_mtx, res_mtx, spread_val, is_symmetrical);
+	CConnRoamer roamer(wrk_mtx, res_mtx, spread_val, (use_long_diag != 0), (symmetrical != 0));
 
 	/* -------------------------------------------------- */
 //	std::string msg = str(boost::format("spread(%f, %d, %d, %d, %d, %X) : M(%d, %d)->%.20f, H[%d]")
