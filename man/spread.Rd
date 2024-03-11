@@ -21,14 +21,16 @@ spread(x, ...)
 \arguments{
 \item{x}{a matrix of resistance values all >=1}
 
+\item{...}{Arguments to be passed to other methods.}
+
 \item{row}{the focal row of the spread}
 
 \item{col}{the focal column of the spread}
 
-\item{sd}{the standard deviation of the gaussian function in cost length
+\item{sd}{the standard deviation of the Gaussian function in cost length
 (resistance * physical distance). The resulting spread will be equivalent
 a Gaussian kernel with this standard deviation when applied to a minimally
-resistant surface - with a resistance of 1 for all cells.}
+resistant surface: resistance of 1 for all cells.}
 
 \item{cellsize}{the size of each cell in physical units, typically meters.}
 
@@ -75,6 +77,7 @@ b[5,] <- 3
 image(spread(b, 3, 3, 3) / dnorm(0, sd=3)  )
 
 plot(spread(b, 3, 3, 3)[,3])
+abline(v = 5, col = "red") # location of higher resistance
 curve(dnorm(x, 3, 3), add=TRUE)
 
 }
