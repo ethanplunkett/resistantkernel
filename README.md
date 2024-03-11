@@ -2,6 +2,7 @@
 # resistantkernel
 
 <!-- badges: start -->
+[![R-CMD-check](https://github.com/ethanplunkett/resistantkernel/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ethanplunkett/resistantkernel/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of resistantkernel is to share the Compton et. al. (2007) resistant
