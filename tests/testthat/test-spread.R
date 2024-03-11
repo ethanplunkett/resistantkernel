@@ -1,12 +1,22 @@
+test_that("spread creates gaussian surfaces", {
+  # (when resisitance is a uniform 1)
+  res <- matrix(1, 5, 5)
+  expect_no_error(s1 <- spread(res, 3, 3, sd = 1))
+  expect_equal(s1[3, ], dnorm(c(2, 1, 0, 1, 2)))
+
+})
+
+
+
 test_that("noah's spread bug is avoided", {
   
   # This tests for an error Noah discovered ~2009
-  # that according to Edi was produced by bad optimization in the C compiler 
-  # used by R on windows
+  # that according to Edi was produced by poor optimization in the C compiler 
   
-  # The error occured after many (millions?) of randomized calls to spread
+  
+  # The error occurred after many (millions?) of randomized calls to spread
   # during an optimization routine.
-  # When it occured R would hard crash (close abruptly)
+  # When it occurred R would hard crash (close abruptly)
   
   sd_meters <- 1300
   buffer <- 34
@@ -21,11 +31,10 @@ test_that("noah's spread bug is avoided", {
                       sd=sd_meters, 
                       cellsize=30)
   )
-  
-  # Remainder of this test recreates the error with lower level functions
+
   skip() 
-  
-  
+  # Remainder of this test recreates traces the error into lower level
+  # function calls
   
   # Broken call to raw_spread (r function)
   # Calculate arguments
