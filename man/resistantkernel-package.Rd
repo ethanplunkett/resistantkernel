@@ -9,4 +9,12 @@
 \description{
 These functions are useful for measuring (least cost) functional distances based on a resistant surface, and the size of a resistant kernel for points on that surface (one way of measuring habitat quality).
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/ethanplunkett/resistantkernel}
+  \item Report bugs at \url{https://github.com/ethanplunkett/resistantkernel/issues}
+}
+
+}
 \keyword{internal}
