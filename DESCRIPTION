@@ -5,7 +5,9 @@ Version: 0.0.0.9021
 Date: 2012-11-08
 Author: Brad Compton, Ethan Plunkett, and Eduard Ene
 Maintainer: Ethan Plunkett <ethan@plunkettworks.com>
-Description: These functions are useful for measuring (least cost) functional distances based on a resistant surface, and the size of a resistant kernel for points on that surface (one way of measuring habitat quality).
+Description: These functions are useful for measuring (least cost) functional 
+   distances based on a resistant surface, and the size of a resistant kernel 
+   for points on that surface (one way of measuring habitat quality).
 License: GPL-2
 LazyLoad: no
 Suggests: 

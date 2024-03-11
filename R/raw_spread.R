@@ -27,15 +27,15 @@
 #' @examples
 #'
 #' # Create (minimally resistant) test matrix 
-#' a <- matrix(1, 5, 5)
-#' a
-#' raw_spread(10, 3, 3, a)
+#' res <- matrix(1, 5, 5)
+#' res
+#' raw_spread(res, 10, 3, 3)
 #' 
 #' # Add two higher resistance bands
-#' a[2, ]  <- 5
-#' a[,2] <- 5
-#' a
-#' raw_spread(10, 3, 3, a)
+#' res[2, ]  <- 5
+#' res[,2] <- 5
+#' res
+#' raw_spread(res, 10, 3, 3)
 #' 
 #' @export 
 raw_spread <- function(x, spread_value, row, col){
