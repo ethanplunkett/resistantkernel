@@ -29,22 +29,24 @@
 #' # Create (minimally resistant) test matrix 
 #' a <- matrix(1, 5, 5)
 #' a
-#' raw_spread(10, 3, 3, a)
+#' raw_spread(a, 10, 3, 3, TRUE)
 #' 
 #' # Add two higher resistance bands
 #' a[2, ]  <- 5
 #' a[,2] <- 5
 #' a
-#' raw_spread(10, 3, 3, a)
+#' raw_spread(a, 10, 3, 3, TRUE)
 #' 
 #' @export 
-raw_spread <- function(x, spread_value, row, col){
+raw_spread <- function(x, spread_value, row, col, symmetrical){
 	x<-as.matrix(x)  # so dim call works properly
 	row <- as.integer(row)
 	col <- as.integer(col)
 	rows <- as.integer(dim(x)[1])
 	columns <- as.integer(dim(x)[2])
 	spread_value <- as.double(spread_value)	
+	symmetrical <- as.integer(symmetrical)
+	stopifnot(symmetrical %in% c(0, 1))
 	x<-as.double(as.vector(t(x))) #convert to vector for passing to C
 	
 	error.msg <- as.integer(0)
@@ -57,6 +59,7 @@ raw_spread <- function(x, spread_value, row, col){
 			as.integer(columns),
 			as.double(x),
 			as.integer(error.msg),
+	#	  symmetrical,
 			PACKAGE="resistantkernel")
 	if (error.msg < 0) stop("spread function in dll/so reported error")
 	

@@ -28,7 +28,8 @@ void rspread( double *spread_val,
 			 int	*row_count,        /* R */
 			 int	*col_count,        /* C */
 			 double *resistance_matrix,
-			 int *error_code
+			 int *error_code,
+       int *symmetrical
 			 )/* R x C */
 {
 	*error_code = spread( *spread_val,
@@ -36,6 +37,7 @@ void rspread( double *spread_val,
 						 *col_focal,
 						 *row_count,        /* R */
 						 *col_count,        /* C */
-						 resistance_matrix);
+						 resistance_matrix,
+						 *symmetrical);
 }
 } // extern "C"
