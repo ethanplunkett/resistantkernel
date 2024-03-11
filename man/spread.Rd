@@ -2,9 +2,21 @@
 % Please edit documentation in R/spread.R
 \name{spread}
 \alias{spread}
-\title{Calculate a Gaussian  resistant kernel}
+\alias{spread.matrix}
+\title{Calculate a Gaussian resistant kernel}
 \usage{
-spread(x, row, col, sd, cellsize = 1, sd_threshold = 3, symmetrical = TRUE)
+spread(x, ...)
+
+\method{spread}{matrix}(
+  x,
+  row,
+  col,
+  sd,
+  cellsize = 1,
+  sd_threshold = 3,
+  symmetrical = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{a matrix of resistance values all >=1}
@@ -14,13 +26,14 @@ spread(x, row, col, sd, cellsize = 1, sd_threshold = 3, symmetrical = TRUE)
 \item{col}{the focal column of the spread}
 
 \item{sd}{the standard deviation of the gaussian function in cost length
-(resistance * physical distance) - the resulting spread will have this sd if
-applied to a minimally resistant surface (all 1's)}
+(resistance * physical distance). The resulting spread will be equivalent
+a Gaussian kernel with this standard deviation when applied to a minimally
+resistant surface - with a resistance of 1 for all cells.}
 
-\item{cellsize}{the size of each cell (in physical units)}
+\item{cellsize}{the size of each cell in physical units, typically meters.}
 
 \item{sd_threshold}{the number of standard deviations beyond which the
-height of the surface isn't calculated}
+height of the surface is not calculated}
 
 \item{symmetrical}{If \code{TRUE} then the average resistance of the source
 and neighboring destination cell is used to represent the cost of travelling
@@ -33,16 +46,16 @@ and the full destination cell cost is.}
 }
 \value{
 a matrix with the same dimensions as \code{x} but representing a
-guassian spread from the focal cell.
+Gaussian spread from the focal cell.
 }
 \description{
-Calculates a Gaussian spread (resistant kernel)
+Calculate a Gaussian resistant kernel
 }
 \note{
 The height of the kernel returned is dependent on the \code{sd} and is the
 same as you'd get by calling \code{dnorm(cost_dist_to_center, sd=sd)}.
 One side effect of this is that the larger the \code{sd} the lower the height.
-You can normalize this by dividing the resultant kernel by dnorm(0, sd=sd)
+You can normalize this by dividing the resultant kernel by \code{dnorm(0, sd=sd)}
 which would then make the height at the center of the kernel 1.
 }
 \examples{
@@ -66,9 +79,10 @@ curve(dnorm(x, 3, 3), add=TRUE)
 
 }
 \references{
-Compton, B. W, McGarigal, K., Cushman, S. A. and Gamble, L. R.
-A Resistant-Kernel Model of Connectivity for Amphibians that Breed in Vernal
-Pools. \emph{Conservation Biology} \bold{21}, 788-799.
+Compton BW, McGarigal K, Cushman SA, Gamble LR.
+A resistant-kernel model of connectivity for amphibians that breed in
+vernal pools. Conserv Biol. 2007 Jun;21(3):788-99.
+doi: 10.1111/j.1523-1739.2007.00674.x. PMID: 17531056.
 }
 \seealso{
 \link{raw_spread}

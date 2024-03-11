@@ -1,29 +1,29 @@
-#' Calculate a Gaussian  resistant kernel
-#' 
-#' Calculates a Gaussian spread (resistant kernel)
-#' 
+#' Calculate a Gaussian resistant kernel
 #' 
 #' @param x a matrix of resistance values all >=1
+#' @param ... Arguments to be passed to other methods.
 #' @param row the focal row of the spread
 #' @param col the focal column of the spread
-#' @param sd the standard deviation of the gaussian function in cost length
-#' (resistance * physical distance) - the resulting spread will have this sd if
-#' applied to a minimally resistant surface (all 1's)
-#' @param cellsize the size of each cell (in physical units)
+#' @param sd the standard deviation of the Gaussian function in cost length
+#' (resistance * physical distance). The resulting spread will be equivalent
+#' a Gaussian kernel with this standard deviation when applied to a minimally 
+#' resistant surface: resistance of 1 for all cells.
+#' @param cellsize the size of each cell in physical units, typically meters.
 #' @param sd_threshold the number of standard deviations beyond which the
-#' height of the surface isn't calculated
+#' height of the surface is not calculated
 #' @inheritParams raw_spread
-#' @return a matrix with the same dimensions as \code{x} but representing a
-#' guassian spread from the focal cell.
+#' @return a matrix with the same dimensions as `x` but representing a
+#' Gaussian spread from the focal cell.
 #' @note The height of the kernel returned is dependent on the `sd` and is the
 #' same as you'd get by calling `dnorm(cost_dist_to_center, sd=sd)`.
 #' One side effect of this is that the larger the `sd` the lower the height.
-#' You can normalize this by dividing the resultant kernel by dnorm(0, sd=sd)
+#' You can normalize this by dividing the resultant kernel by `dnorm(0, sd=sd)`
 #' which would then make the height at the center of the kernel 1. 
 #' @seealso [raw_spread]
-#' @references Compton, B. W, McGarigal, K., Cushman, S. A. and Gamble, L. R.
-#' A Resistant-Kernel Model of Connectivity for Amphibians that Breed in Vernal
-#' Pools. \emph{Conservation Biology} \bold{21}, 788-799.
+#' @references Compton BW, McGarigal K, Cushman SA, Gamble LR. 
+#' A resistant-kernel model of connectivity for amphibians that breed in 
+#' vernal pools. Conserv Biol. 2007 Jun;21(3):788-99. 
+#' doi: 10.1111/j.1523-1739.2007.00674.x. PMID: 17531056.
 #' 
 #' @examples
 #' #' # a minimally resistant matrix:
@@ -42,11 +42,16 @@
 #' image(spread(b, 3, 3, 3) / dnorm(0, sd=3)  )
 #' 
 #' plot(spread(b, 3, 3, 3)[,3])
+#' abline(v = 5, col = "red") # location of higher resistance
 #' curve(dnorm(x, 3, 3), add=TRUE)
 #' 
 #' @export
-spread <- function(x, row, col, sd, cellsize = 1, sd_threshold = 3, 
-                   symmetrical = TRUE){
+spread <- function(x, ...) UseMethod("spread")
+
+#' @export
+#' @rdname spread
+spread.matrix <- function(x, row, col, sd, cellsize = 1, sd_threshold = 3, 
+                   symmetrical = TRUE, ...){
 	
   sd_cell <- sd/cellsize  #convert to cell units
 						
@@ -70,4 +75,6 @@ spread <- function(x, row, col, sd, cellsize = 1, sd_threshold = 3,
 					
 	gaussian_result
 } # end spread function definition
+
+
 

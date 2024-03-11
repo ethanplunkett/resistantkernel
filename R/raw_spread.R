@@ -30,7 +30,6 @@
 #' represent the functional proximity to the focal cell.  They range from
 #' `spread_value` (at the focal cell) to zero for cells greater than
 #' `spread_value` (cost) away from the focal cell.
-#' @author Ethan Plunkett
 #' @seealso [spread]
 #' @examples
 #'

@@ -63,6 +63,3 @@ raw_spread(a, 10, 3, 3, TRUE)  # Destination resistance
 \seealso{
 \link{spread}
 }
-\author{
-Ethan Plunkett
-}
