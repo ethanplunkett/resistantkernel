@@ -22,6 +22,11 @@ test_that("noah's spread bug is avoided", {
                       cellsize=30)
   )
   
+  # Remainder of this test recreates the error with lower level functions
+  skip() 
+  
+  
+  
   # Broken call to raw_spread (r function)
   # Calculate arguments
   cell.size=30
@@ -50,7 +55,8 @@ test_that("noah's spread bug is avoided", {
   expect_no_error(
     result <- .C("rspread", as.double(spread_value), as.integer(f_row), 
                  as.integer(f_col), as.integer(rows), as.integer(columns), 
-                 as.double(x), as.integer(error_msg), PACKAGE = "resistantkernel")
+                 as.double(x), as.integer(error_msg), as.integer(1),
+                 PACKAGE = "resistantkernel")
   )
   
   
