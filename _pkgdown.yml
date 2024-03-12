@@ -6,7 +6,8 @@ development:
   mode: unreleased
 
 home:
-  links: UMass Designing Sustainable Landscapes
-  href: https://umassdsl.org
-  links: UMass CAPS
-  href: https://umasscaps.org
+  links: 
+  - text: UMass Designing Sustainable Landscapes
+    href: https://umassdsl.org
+  - text: UMass CAPS
+    href: https://umasscaps.org
